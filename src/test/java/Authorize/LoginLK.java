@@ -1,4 +1,5 @@
 package Authorize;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.AfterClass;
@@ -17,7 +18,7 @@ public class LoginLK {
     @BeforeClass
     public static void setup() {
         //определение пути до драйвера и его настройка
-        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
+        WebDriverManager.chromedriver().setup();
         //создание экземпляра драйвера
         driver = new ChromeDriver();
         loginPage = new LoginPage(driver);
@@ -30,7 +31,7 @@ public class LoginLK {
         driver.get(ConfProperties.getProperty("loginpage"));
     }
     @Test
-    public void loginTest() {
+    public void loginTest() throws InterruptedException {
         //получение доступа к методам класса LoginPage для взаимодействия с элементами страницы
         //значение login/password берутся из файла настроек по аналогии с chromedriver
         //и loginpage
@@ -45,7 +46,7 @@ public class LoginLK {
         //получаем отображаемый логин
         String user = profilePage.getUserName();
         //и сравниваем его с логином из файла настроек
-        Assert.assertEquals(ConfProperties.getProperty("login"), user); }
+        Assert.assertEquals("Блэк Джо", user); }
     /**
      * осуществление выхода из аккаунта с последующим закрытием окна браузера
      */

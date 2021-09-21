@@ -3,11 +3,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 public class ProfilePage {
     /**
      * конструктор класса, занимающийся инициализацией полей класса
      */
     public WebDriver driver;
+    protected WebDriverWait wait;
 
     public ProfilePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -17,8 +21,8 @@ public class ProfilePage {
     /**
      * определение локатора меню пользователя
      */
-    @FindBy(xpath = "/html/body/app-root/mdm-logged/main/div/mdm-dashboard/div/aside/nav/div/div[2]")
-    private WebElement userMenu;
+    @FindBy(xpath = "//div[@class='sidebar__client-name']")
+    private WebElement userName;
     /**
      * определение локатора кнопки выхода из аккаунта
      */
@@ -29,8 +33,9 @@ public class ProfilePage {
      * метод для получения имени пользователя из меню пользователя
      */
     public String getUserName() {
-        String userName = userMenu.getText();
-        return userName;
+        wait.until(ExpectedConditions.visibilityOf(userName));
+        return this.userName.getText();
+
     }
     /**
      * метод для нажатия кнопки меню пользователя
